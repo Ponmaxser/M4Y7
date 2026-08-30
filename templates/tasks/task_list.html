@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+    <head>
+        <meta charset="UTF-8">
+        <title>Task Tracker</title>
+    </head>
+    <body>
+        <h1>Tasks</h1>
+        <a href="{% url 'tasks:task-create' %}"></a>
+        {% for task in tasks %}
+        <div>
+            <h2>
+                <a href="{% url 'tasks:task-detail' task.pk %}"></a>
+                {{ task.title }}
+            </h2>
+            <p>{{ task.descripiton }}</p>
+            <p>Status: {{ task.status }}</p>
+            <p>Priority: {{ task.priority }}</p>
+            <p>Due date: {{ task.due_date }}</p>
+        </div>
+        <hr>
+        {% empty %}
+        <p>No tasks</p>
+        {% endfor %}
+    </body>
+</html>
