@@ -4,11 +4,26 @@
     <meta charset="UTF-8">
     <title>Confirm Delete Task</title>
     <style>
-        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; }
-        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+        /* Базові стилі контейнера та шрифтів */
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 0 15px; }
+        h2 { color: #333; margin-bottom: 20px; font-size: 26px; }
+
+        /* Картка попередження з червоною лінією зліва */
+        .delete-card { background: #f8f9fa; border: 1px solid #e9ecef; border-left: 5px solid #dc3545; padding: 25px; border-radius: 5px; margin-bottom: 20px; }
+        
+        /* Стилізація тексту попередження та назви завдання */
+        .warning-text { font-size: 16px; color: #495057; line-height: 1.5; margin-top: 0; margin-bottom: 20px; }
+        .task-title { font-weight: bold; color: #dc3545; }
+
+        /* Універсальні стилі для кнопок */
+        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; font-family: sans-serif; text-align: center; }
         .btn-danger { background-color: #dc3545; color: white; }
-        .btn-secondary { background-color: #6c757d; color: white; margin-left: 10px; }
-        .task-title { font-weight: bold; color: #333; }
+        .btn-danger:hover { background-color: #bd2130; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
+
+        /* Контейнер для кнопок форми */
+        .form-actions { display: flex; gap: 10px; align-items: center; }
     </style>
 </head>
 <body>
@@ -16,19 +31,23 @@
     <div class="container">
         <h2>Delete Task</h2>
         
-        <!-- Запитуємо підтвердження та показуємо назву завдання через task.title -->
-        <p>Are you sure you want to delete the task: <span class="task-title">"{{ task.title }}"</span>?</p>
-        
-        <!-- Форма для видалення (обов'язково POST і csrf_token) -->
-        <form method="post">
-            {% csrf_token %}
+        <div class="delete-card">
+            <!-- Текст попередження -->
+            <p class="warning-text">Are you sure you want to delete the task: <span class="task-title">"{{ task.title }}"</span>?</p>
             
-            <!-- Кнопка підтвердження видалення -->
-            <button type="submit" class="btn btn-danger">Confirm Delete</button>
-            
-            <!-- Кнопка скасування (повертає користувача на список завдань) -->
-            <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary">Cancel</a>
-        </form>
+            <!-- Форма для видалення -->
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-actions">
+                    <!-- Кнопка підтвердження видалення -->
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    
+                    <!-- Кнопка скасування -->
+                    <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 
 </body>

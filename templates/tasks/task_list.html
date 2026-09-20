@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html lang="uk">
-    <head>
-        <meta charset="UTF-8">
-        <title>Task Tracker</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>Task Tracker</title>
+    <style>
+        /* Базові стилі з вашого прикладу */
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 0 15px; }
+        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; }
         
-        <!-- Блок авторизації (вхід / реєстрація / вихід) -->
-        <div>
+        /* Колірна палітра кнопок та посилань */
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        
+        /* Блок авторизації (верхня панель) */
+        .auth-bar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px; }
+        
+        /* Стилізація списку завдань */
+        .task-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
+        .task-title { font-weight: bold; color: #333; text-decoration: none; font-size: 20px; }
+        .task-title:hover { color: #007bff; }
+        .task-meta { color: #6c757d; font-size: 14px; margin: 5px 0; }
+        
+        /* Допоміжні стилі */
+        .action-link { display: inline-block; margin-bottom: 20px; color: #007bff; text-decoration: none; font-weight: bold; }
+        .action-link:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #dee2e6; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Блок авторизації -->
+        <div class="auth-bar">
             {% if user.is_authenticated %}
                 <form method="post" action="{% url 'logout' %}" style="display: inline;">
                     {% csrf_token %}
-                    <button type="submit">Logout</button>
+                    <button type="submit" class="btn btn-secondary">Logout</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}"><button>Login</button></a>
-                <a href="{% url 'register' %}"><button>Register</button></a>
+                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
             {% endif %}
         </div>
+        
         <hr>
 
         <h1>Tasks</h1>
@@ -25,20 +52,21 @@
         <!-- Головна перевірка: показуємо завдання тільки авторизованим -->
         {% if user.is_authenticated %}
             
-            <p><a href="{% url 'tasks:task-create' %}">Create New Task</a></p>
+            <a href="{% url 'tasks:task-create' %}" class="btn btn-primary action-link" style="color: white; padding: 10px 20px;">Create New Task</a>
             
             {% for task in tasks %}
-            <div>
+            <div class="task-card">
                 <h2>
-                    <a href="{% url 'tasks:task-detail' task.pk %}">{{ task.title }}</a>
+                    <a href="{% url 'tasks:task-detail' task.pk %}" class="task-title">{{ task.title }}</a>
                 </h2>
                 <p>{{ task.description }}</p>
-                <p>Status: {{ task.get_status_display }}</p>
-                <p>Priority: {{ task.get_priority_display }}</p>
-                <p>Due date: {{ task.due_date }}</p>
-                <p><a href="{% url 'tasks:task-delete' task.pk %}">Delete Task</a></p>
+                <p class="task-meta">Status: {{ task.get_status_display }}</p>
+                <p class="task-meta">Priority: {{ task.get_priority_display }}</p>
+                <p class="task-meta">Due date: {{ task.due_date }}</p>
+                <div style="margin-top: 15px; text-align: right;">
+                    <a href="{% url 'tasks:task-delete' task.pk %}" class="btn btn-danger">Delete Task</a>
+                </div>
             </div>
-            <hr>
             {% empty %}
             <p>No tasks</p>
             {% endfor %}
@@ -47,5 +75,7 @@
             <p>Please sign in to view your tasks.</p>
         {% endif %}
 
-    </body>
+    </div>
+
+</body>
 </html>

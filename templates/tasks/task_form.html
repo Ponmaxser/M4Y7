@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="uk">
-    <head>
-        <meta charset="UTF-8">
-        <title>Create Task</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+    <style>
+        /* Базові стилі контейнера та шрифтів */
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 0 15px; }
+        h1 { color: #333; margin-bottom: 20px; font-size: 28px; }
+
+        /* Стилізація картки форми */
+        .form-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 25px; border-radius: 5px; margin-bottom: 20px; }
+        
+        /* Автоматична стилізація полів, які генерує {{ form.as_p }} */
+        .form-card p { margin-bottom: 15px; }
+        .form-card label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; font-size: 14px; }
+        .form-card input[type="text"], 
+        .form-card input[type="date"], 
+        .form-card input[type="datetime-local"], 
+        .form-card textarea, 
+        .form-card select { 
+            width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-family: sans-serif; font-size: 14px;
+        }
+        .form-card textarea { resize: vertical; min-height: 100px; }
+
+        /* Універсальні стилі для кнопок */
+        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; font-family: sans-serif; text-align: center; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-primary:hover { background-color: #0056b3; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
+
+        /* Контейнер для нижніх кнопок */
+        .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
         <h1>Create Task</h1>
-        <form method="post">
-            {% csrf_token %}
+        
+        <div class="form-card">
+            <form method="post">
+                {% csrf_token %}
 
-            {{ form.as_p }}
+                {{ form.as_p }}
 
-            <button type="sumbit">Create</button>
-        </form>
-        <a href="{% url 'tasks:task-list' %}">Back</a>
-    </body>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
 </html>

@@ -3,20 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <style>
+        /* Базові стилі контейнера та шрифтів */
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 0 15px; }
+        h2 { color: #333; margin-bottom: 20px; font-size: 26px; }
+
+        /* Стилізація картки форми реєстрації */
+        .auth-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 25px; border-radius: 5px; margin-bottom: 20px; }
+        
+        /* Автоматична стилізація полів Django {{ form.as_p }} */
+        .auth-card p { margin-bottom: 15px; }
+        .auth-card label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; font-size: 14px; }
+        .auth-card input[type="text"], 
+        .auth-card input[type="password"], 
+        .auth-card input[type="email"] { 
+            width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-family: sans-serif; font-size: 14px;
+        }
+        
+        /* Допоміжний текст Django під полями (наприклад, вимоги до паролю) */
+        .auth-card .helptext { display: block; font-size: 12px; color: #6c757d; margin-top: 4px; line-height: 1.4; }
+
+        /* Універсальні стилі для кнопок */
+        .btn { padding: 10px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; font-family: sans-serif; text-align: center; }
+        .btn-primary { background-color: #007bff; color: white; width: 100%; font-weight: bold; }
+        .btn-primary:hover { background-color: #0056b3; }
+
+        /* Нижні посилання та роздільники */
+        hr { border: 0; border-top: 1px solid #dee2e6; margin: 20px 0; }
+        .footer-links { text-align: center; font-size: 14px; color: #495057; }
+        .footer-links p { margin: 8px 0; }
+        .footer-links a { color: #007bff; text-decoration: none; }
+        .footer-links a:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
 
-    <h2>Create an Account</h2>
+    <div class="container">
+        <h2>Create an Account</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+        <div class="auth-card">
+            <form method="post">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
 
-    <hr>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-    <p>Back to <a href="/">Home</a></p>
+        <hr>
+        
+        <div class="footer-links">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            <p>Back to <a href="/">Home</a></p>
+        </div>
+    </div>
 
 </body>
 </html>
+

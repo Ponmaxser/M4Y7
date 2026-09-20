@@ -1,19 +1,52 @@
 <!DOCTYPE html>
 <html lang="uk">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ task.title }}</title>
-    </head>
-    <body>
-        <a href="{% url 'tasks:task-list' %}">Back to tasks</a>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ task.title }}</title>
+    <style>
+        /* Базові стилі контейнера та шрифтів */
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; padding: 0 15px; }
+        h1 { color: #333; margin: 15px 0 20px 0; font-size: 28px; }
+
+        /* Стилізація картки з деталями завдання */
+        .task-detail-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 25px; border-radius: 5px; }
+        
+        /* Стилізація опису */
+        .task-description { font-size: 16px; color: #495057; line-height: 1.5; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #dee2e6; }
+        
+        /* Мета-дані (статус, пріоритет, дати) */
+        .meta-group { margin-bottom: 12px; font-size: 14px; color: #6c757d; }
+        .meta-group strong { color: #333; }
+
+        /* Універсальні стилі для кнопок */
+        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; font-size: 14px; font-family: sans-serif; text-align: center; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        
+        /* Кнопка "Назад" у вигляді посилання зі стрілкою */
+        .back-link { display: inline-flex; align-items: center; gap: 5px; color: #6c757d; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .back-link:hover { color: #333; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Кнопка повернення угорі -->
+        <a href="{% url 'tasks:task-list' %}" class="back-link">← Back to tasks</a>
+        
         <h1>{{ task.title }}</h1>
 
-        <p>{{ task.description }}</p>
+        <div class="task-detail-card">
+            <!-- Опис завдання -->
+            <p class="task-description">{{ task.description }}</p>
 
-        <p>Status: {{ task.get_status_display }}</p>
-        <p>Priority: {{ task.get_priority_display }}</p>
-        <p>Due date: {{ task.due_date }}</p>
-        <p>Created: {{ task.created_at }}</p>
+            <!-- Характеристики завдання -->
+            <div class="meta-group">Status: <strong>{{ task.get_status_display }}</strong></div>
+            <div class="meta-group">Priority: <strong>{{ task.get_priority_display }}</strong></div>
+            <div class="meta-group">Due date: <strong>{{ task.due_date }}</strong></div>
+            <div class="meta-group">Created: <strong>{{ task.created_at }}</strong></div>
+        </div>
+    </div>
 
-    </body>
+</body>
 </html>
