@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -27,8 +28,13 @@ class Task(models.Model):
         default=Priority.MEDIUM
     )
     due_date = models.DateField(null=True, blank=True)
-
     created_at = models.DateTimeField(auto_now_add=True)
+
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="tasks"
+    )
 
     def __str__(self):
         return self.title

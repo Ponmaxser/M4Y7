@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Delete Task</title>
+    <style>
+        .container { max-width: 500px; margin: 50px auto; font-family: sans-serif; }
+        .btn { padding: 8px 15px; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; margin-left: 10px; }
+        .task-title { font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Delete Task</h2>
+        
+        <!-- Запитуємо підтвердження та показуємо назву завдання через task.title -->
+        <p>Are you sure you want to delete the task: <span class="task-title">"{{ task.title }}"</span>?</p>
+        
+        <!-- Форма для видалення (обов'язково POST і csrf_token) -->
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Кнопка підтвердження видалення -->
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+            
+            <!-- Кнопка скасування (повертає користувача на список завдань) -->
+            <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+</body>
+</html>

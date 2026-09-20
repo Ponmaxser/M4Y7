@@ -14,5 +14,5 @@ class TaskAdmin(admin.ModelAdmin):
         "due_date",
         "created_at"
     )
-    list_filter = ("status", "priority")
-    search_fields = ("title", "description")
+    list_filter = ("status", "priority", "owner")
+    search_fields = ("title", "description", "owner__username")

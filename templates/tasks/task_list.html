@@ -5,22 +5,47 @@
         <title>Task Tracker</title>
     </head>
     <body>
-        <h1>Tasks</h1>
-        <a href="{% url 'tasks:task-create' %}"></a>
-        {% for task in tasks %}
+        
+        <!-- Блок авторизації (вхід / реєстрація / вихід) -->
         <div>
-            <h2>
-                <a href="{% url 'tasks:task-detail' task.pk %}"></a>
-                {{ task.title }}
-            </h2>
-            <p>{{ task.descripiton }}</p>
-            <p>Status: {{ task.status }}</p>
-            <p>Priority: {{ task.priority }}</p>
-            <p>Due date: {{ task.due_date }}</p>
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}"><button>Login</button></a>
+                <a href="{% url 'register' %}"><button>Register</button></a>
+            {% endif %}
         </div>
         <hr>
-        {% empty %}
-        <p>No tasks</p>
-        {% endfor %}
+
+        <h1>Tasks</h1>
+        
+        <!-- Головна перевірка: показуємо завдання тільки авторизованим -->
+        {% if user.is_authenticated %}
+            
+            <p><a href="{% url 'tasks:task-create' %}">Create New Task</a></p>
+            
+            {% for task in tasks %}
+            <div>
+                <h2>
+                    <a href="{% url 'tasks:task-detail' task.pk %}">{{ task.title }}</a>
+                </h2>
+                <p>{{ task.description }}</p>
+                <p>Status: {{ task.get_status_display }}</p>
+                <p>Priority: {{ task.get_priority_display }}</p>
+                <p>Due date: {{ task.due_date }}</p>
+                <p><a href="{% url 'tasks:task-delete' task.pk %}">Delete Task</a></p>
+            </div>
+            <hr>
+            {% empty %}
+            <p>No tasks</p>
+            {% endfor %}
+
+        {% else %}
+            <p>Please sign in to view your tasks.</p>
+        {% endif %}
+
     </body>
 </html>
